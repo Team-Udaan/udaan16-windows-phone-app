@@ -105,7 +105,6 @@
     <Compile Include="Common\Event.cs" />
     <Compile Include="Common\Manager.cs" />
     <Compile Include="Common\NavigationHelper.cs" />
-    <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Pages\Departments.xaml.cs">

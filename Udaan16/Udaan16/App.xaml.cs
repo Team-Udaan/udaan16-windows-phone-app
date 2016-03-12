@@ -20,8 +20,6 @@ using Udaan16.Pages;
 using Windows.Storage;
 using Windows.Data.Json;
 
-// The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
-
 namespace Udaan16
 {
     public sealed partial class App : Application

@@ -1,21 +1,9 @@
 ﻿using Udaan16.Common;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.Phone.UI.Input;
 
 namespace Udaan16.Pages
 {
@@ -33,7 +21,6 @@ namespace Udaan16.Pages
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
         public NavigationHelper NavigationHelper
@@ -60,22 +47,6 @@ namespace Udaan16.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedFrom(e);
-        }
-
-        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            if (Frame.Content.GetType().Equals(typeof(Deaprtments)))
-            {
-                Application.Current.Exit();
-            }
-            else
-            {
-                if (navigationHelper.GoBackCommand.CanExecute(null))
-                {
-                    e.Handled = true;
-                    navigationHelper.GoBackCommand.Execute(null);
-                }
-            }
         }
 
         #endregion

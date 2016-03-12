@@ -16,34 +16,70 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Udaan16.Pages;
+using Windows.Storage;
+using Windows.Data.Json;
 
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
 namespace Udaan16
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
+        public Dictionary<string,Department> Depts { get; set; }
 
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
         public App()
         {
             this.InitializeComponent();
+            LoadData();
             this.Suspending += this.OnSuspending;
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used when the application is launched to open a specific file, to display
-        /// search results, and so forth.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
+        private async void LoadData()
+        {
+            Depts = new Dictionary<string, Department>();
+            Uri dataUri = new Uri("ms-appx:///DataModel/Data.json");
+            Uri deptUri = new Uri("ms-appx:///DataModel/Departments.json");
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+            string jsonText = await FileIO.ReadTextAsync(file);
+            StorageFile depts = await StorageFile.GetFileFromApplicationUriAsync(deptUri);
+            string depttext = await FileIO.ReadTextAsync(depts);
+            JsonObject Events = JsonObject.Parse(jsonText);
+            JsonObject Dept = JsonObject.Parse(depttext);
+            JsonArray EventsArray = Events["TechEvents"].GetArray();
+            JsonArray DeptsArray = Dept["Departments"].GetArray();
+            foreach (JsonValue item in DeptsArray)
+            {
+                JsonObject dataObject = item.GetObject();
+                Department d = new Department(dataObject["name"].GetString(), dataObject["alias"].GetString());
+                Depts[d.Alias] = d;
+            }
+            foreach (JsonValue item in EventsArray)
+            {
+                JsonObject obj = item.GetObject();
+                Event e = new Event();
+                e.Dept = obj["department"].GetString();
+                e.name = obj["name"].GetString();
+                e.Fee = obj["fees"].GetString();
+                e.Description = obj["description"].GetString();
+                e.prize = obj["prize"].GetString();
+                e.NoOfParticipants = obj["numberOfParticipants"].GetString();
+                e.Managers = new List<Manager>();
+                foreach (JsonValue val in obj["manager"].GetArray())
+                {
+                    JsonObject mgr = val.GetObject();
+                    Manager m = new Manager();
+                    m.name = mgr["name"].GetString();
+                    m.Contact = mgr["number"].GetString();
+                    m.Email = mgr["email"].GetString();
+                    e.Managers.Add(m);
+                }
+                Depts[e.Dept].Events.Add(e);
+            }
+            
+        }
+
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
@@ -55,43 +91,29 @@ namespace Udaan16
 
             Frame rootFrame = Window.Current.Content as Frame;
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active.
-            if (rootFrame == null)
+             if (rootFrame == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page.
                 rootFrame = new Frame();
-
-                // Associate the frame with a SuspensionManager key.
                 SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
-
-                // TODO: Change this value to a cache size that is appropriate for your application.
                 rootFrame.CacheSize = 1;
-
-                // Set the default language
                 rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    // Restore the saved session state only when appropriate.
                     try
                     {
                         await SuspensionManager.RestoreAsync();
                     }
                     catch (SuspensionManagerException)
                     {
-                        // Something went wrong restoring state.
-                        // Assume there is no state and continue.
                     }
                 }
 
-                // Place the frame in the current Window.
                 Window.Current.Content = rootFrame;
             }
 
             if (rootFrame.Content == null)
             {
-                // Removes the turnstile navigation for startup.
                 if (rootFrame.ContentTransitions != null)
                 {
                     this.transitions = new TransitionCollection();
@@ -104,22 +126,15 @@ namespace Udaan16
                 rootFrame.ContentTransitions = null;
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
 
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter.
-                if (!rootFrame.Navigate(typeof(PivotPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(Deaprtments), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
             }
 
-            // Ensure the current window is active.
             Window.Current.Activate();
         }
 
-        /// <summary>
-        /// Restores the content transitions after the app has launched.
-        /// </summary>
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
@@ -127,14 +142,7 @@ namespace Udaan16
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
 
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
+       private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             await SuspensionManager.SaveAsync();

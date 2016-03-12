@@ -16,21 +16,23 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+
 namespace Udaan16.Pages
 {
-    public sealed partial class EventDetails : Page
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class EventList : Page
     {
         private NavigationHelper navigationHelper;
-        private List<Event> _event;
-       
-        public EventDetails()
+        private List<Event> Items;
+        public EventList()
         {
             this.InitializeComponent();
-            _event = new List<Event>();
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-            
         }
 
         public NavigationHelper NavigationHelper
@@ -38,6 +40,7 @@ namespace Udaan16.Pages
             get { return this.navigationHelper; }
         }
 
+        
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
         }
@@ -46,21 +49,25 @@ namespace Udaan16.Pages
         {
         }
 
-        
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Event eve = e.ClickedItem as Event;
+            Frame.Navigate(typeof(EventDetails), eve);
+        }
 
         #region NavigationHelper registration
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
-            _event.Add(e.Parameter as Event);
-            if(_event != null)
+            Department d = e.Parameter as Department;
+            if (d != null)
             {
-                title.Text = _event.First().name;
-                listView.ItemsSource = _event;
+                TitleOfPage.Text = d.Title;
+                Items = d.Events;
+                listView.ItemsSource = Items;
                 listView.DataContext = this;
             }
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

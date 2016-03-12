@@ -15,22 +15,25 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Phone.UI.Input;
 
 namespace Udaan16.Pages
 {
-    public sealed partial class EventDetails : Page
+    public sealed partial class Deaprtments : Page
     {
         private NavigationHelper navigationHelper;
-        private List<Event> _event;
-       
-        public EventDetails()
+        private List<Department> Items;
+        
+        public Deaprtments()
         {
             this.InitializeComponent();
-            _event = new List<Event>();
+            Items = (Application.Current as App).Depts.Values.ToList<Department>();
+            listView.ItemsSource = Items;
+            listView.DataContext = this;
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-            
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
         public NavigationHelper NavigationHelper
@@ -38,6 +41,7 @@ namespace Udaan16.Pages
             get { return this.navigationHelper; }
         }
 
+        
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
         }
@@ -46,21 +50,11 @@ namespace Udaan16.Pages
         {
         }
 
-        
-
         #region NavigationHelper registration
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
-            _event.Add(e.Parameter as Event);
-            if(_event != null)
-            {
-                title.Text = _event.First().name;
-                listView.ItemsSource = _event;
-                listView.DataContext = this;
-            }
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -68,6 +62,28 @@ namespace Udaan16.Pages
             this.navigationHelper.OnNavigatedFrom(e);
         }
 
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (Frame.Content.GetType().Equals(typeof(Deaprtments)))
+            {
+                Application.Current.Exit();
+            }
+            else
+            {
+                if (navigationHelper.GoBackCommand.CanExecute(null))
+                {
+                    e.Handled = true;
+                    navigationHelper.GoBackCommand.Execute(null);
+                }
+            }
+        }
+
         #endregion
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Department d = e.ClickedItem as Department;
+            Frame.Navigate(typeof(EventList),d);
+        }
     }
 }

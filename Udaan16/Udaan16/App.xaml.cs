@@ -37,45 +37,81 @@ namespace Udaan16
         private async void LoadData()
         {
             Depts = new Dictionary<string, Department>();
-            Uri dataUri = new Uri("ms-appx:///DataModel/Data.json");
-            Uri deptUri = new Uri("ms-appx:///DataModel/Departments.json");
+            Uri dataUri = new Uri("ms-appx:///DataModel/data.json");
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
             string jsonText = await FileIO.ReadTextAsync(file);
-            StorageFile depts = await StorageFile.GetFileFromApplicationUriAsync(deptUri);
-            string depttext = await FileIO.ReadTextAsync(depts);
-            JsonObject Events = JsonObject.Parse(jsonText);
-            JsonObject Dept = JsonObject.Parse(depttext);
-            JsonArray EventsArray = Events["TechEvents"].GetArray();
-            JsonArray DeptsArray = Dept["Departments"].GetArray();
-            foreach (JsonValue item in DeptsArray)
+            JsonObject Data = JsonObject.Parse(jsonText);
+            JsonArray Categories = Data["departments"].GetArray();
+            foreach (JsonValue val in Categories)
             {
-                JsonObject dataObject = item.GetObject();
-                Department d = new Department(dataObject["name"].GetString(), dataObject["alias"].GetString());
+                JsonObject obj = val.GetObject();
+                Department d = new Department(obj["name"].GetString(), obj["alias"].GetString());
                 Depts[d.Alias] = d;
-            }
-            foreach (JsonValue item in EventsArray)
-            {
-                JsonObject obj = item.GetObject();
-                Event e = new Event();
-                e.Dept = obj["department"].GetString();
-                e.name = obj["name"].GetString();
-                e.Fee = obj["fees"].GetString();
-                e.Description = obj["description"].GetString();
-                e.prize = obj["prize"].GetString();
-                e.NoOfParticipants = obj["numberOfParticipants"].GetString();
-                e.Managers = new List<Manager>();
-                foreach (JsonValue val in obj["manager"].GetArray())
+                foreach (JsonValue item in obj["events"].GetArray())
                 {
-                    JsonObject mgr = val.GetObject();
-                    Manager m = new Manager();
-                    m.name = mgr["name"].GetString();
-                    m.Contact = mgr["number"].GetString();
-                    m.Email = mgr["email"].GetString();
-                    e.Managers.Add(m);
+                    JsonObject eventobj = item.GetObject();
+                    Event e = new Event();
+                    e.name = eventobj["name"].GetString();
+                    e.Fee = eventobj["fees"].GetString();
+                    e.Description = eventobj["description"].GetString();
+                    e.Description += "\r\n Round 1 : \r\n" + eventobj["round1Description"].GetString();
+                    e.Description += "\r\n Round 2 : \r\n" + eventobj["round2Description"].GetString();
+                    if (eventobj["round3Description"].GetString() != "")
+                        e.Description += "\r\n Round 3 : \r\n" + eventobj["round3Description"].GetString();
+                    e.NoOfParticipants = eventobj["participants"].GetString();
+                    e.Managers = new List<Manager>();
+                    foreach (JsonValue manager in eventobj["managers"].GetArray())
+                    {
+                        JsonObject mgr = manager.GetObject();
+                        Manager m = new Manager();
+                        m.name = mgr["name"].GetString();
+                        m.Contact = mgr["mobile"].GetString();
+                        m.Email = mgr["email"].GetString();
+                        e.Managers.Add(m);
+                    }
+                    d.Events.Add(e);
                 }
-                Depts[e.Dept].Events.Add(e);
             }
-            
+            foreach (JsonValue item in Data["categories"].GetArray())
+            {
+                JsonObject o = item.GetObject();
+                if (o["name"].GetString() != "Departments")
+                {
+                    Department dep = new Department(o["name"].GetString(), o["alias"].GetString());
+                    Depts[dep.Title] = dep;
+                    foreach (JsonValue v in Data[o["alias"].GetString()].GetArray())
+                    {
+                        JsonObject jobj = v.GetObject();
+                        Event e = new Event();
+                        e.name = jobj["name"].GetString();
+                        e.Description = jobj["description"].GetString();
+                        try
+                        {
+                            e.Description += "\r\n Round 1 : \r\n" + jobj["round1Description"].GetString();
+                            e.Description += "\r\n Round 2 : \r\n" + jobj["round2Description"].GetString();
+                            if (jobj["round3Description"].GetString() != "")
+                                e.Description += "\r\n Round 3 : \r\n" + jobj["round3Description"].GetString();
+                            e.NoOfParticipants = jobj["participants"].GetString();
+                            e.Fee = jobj["fees"].GetString();
+                        }
+                        catch (Exception)
+                        {
+                            e.NoOfParticipants = e.Fee = "N/A";
+                        }
+                        e.Managers = new List<Manager>();
+                        foreach (JsonValue manager in jobj["managers"].GetArray())
+                        {
+                            JsonObject mgr = manager.GetObject();
+                            Manager m = new Manager();
+                            m.name = mgr["name"].GetString();
+                            m.Contact = mgr["mobile"].GetString();
+                            m.Email = mgr["email"].GetString();
+                            e.Managers.Add(m);
+                        }
+                        dep.Events.Add(e);
+                    }
+                }
+            }
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs e)

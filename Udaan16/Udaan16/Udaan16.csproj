@@ -84,6 +84,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\DList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\EventDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +113,9 @@
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Pages\Departments.xaml.cs">
       <DependentUpon>Departments.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DList.xaml.cs">
+      <DependentUpon>DList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\EventDetails.xaml.cs">
       <DependentUpon>EventDetails.xaml</DependentUpon>

@@ -26,10 +26,12 @@ namespace Udaan16
     {
         private TransitionCollection transitions;
         public Dictionary<string,Department> Depts { get; set; }
+        public List<Department> Tech { get; set; }
 
         public App()
         {
             this.InitializeComponent();
+            Tech = new List<Department>();
             LoadData();
             this.Suspending += this.OnSuspending;
         }
@@ -46,7 +48,7 @@ namespace Udaan16
             {
                 JsonObject obj = val.GetObject();
                 Department d = new Department(obj["name"].GetString(), obj["alias"].GetString());
-                Depts[d.Alias] = d;
+                //Depts[d.Alias] = d;
                 foreach (JsonValue item in obj["events"].GetArray())
                 {
                     JsonObject eventobj = item.GetObject();
@@ -54,8 +56,10 @@ namespace Udaan16
                     e.name = eventobj["name"].GetString();
                     e.Fee = eventobj["fees"].GetString();
                     e.Description = eventobj["description"].GetString();
-                    e.Description += "\r\n Round 1 : \r\n" + eventobj["round1Description"].GetString();
-                    e.Description += "\r\n Round 2 : \r\n" + eventobj["round2Description"].GetString();
+                    if (eventobj["round1Description"].GetString() != "")
+                        e.Description += "\r\n Round 1 : \r\n\n" + eventobj["round1Description"].GetString();
+                    if (eventobj["round2Description"].GetString() != "")
+                        e.Description += "\r\n Round 2 : \r\n\n" + eventobj["round2Description"].GetString();
                     if (eventobj["round3Description"].GetString() != "")
                         e.Description += "\r\n Round 3 : \r\n" + eventobj["round3Description"].GetString();
                     e.NoOfParticipants = eventobj["participants"].GetString();
@@ -71,6 +75,7 @@ namespace Udaan16
                     }
                     d.Events.Add(e);
                 }
+                Tech.Add(d);
             }
             foreach (JsonValue item in Data["categories"].GetArray())
             {
@@ -87,10 +92,12 @@ namespace Udaan16
                         e.Description = jobj["description"].GetString();
                         try
                         {
-                            e.Description += "\r\n Round 1 : \r\n" + jobj["round1Description"].GetString();
-                            e.Description += "\r\n Round 2 : \r\n" + jobj["round2Description"].GetString();
+                            if (jobj["round1Description"].GetString() != "")
+                                e.Description += "\r\n\n Round 1 : \r\n" + jobj["round1Description"].GetString();
+                            if (jobj["round2Description"].GetString() != "")
+                                e.Description += "\r\n\n Round 2 : \r\n" + jobj["round2Description"].GetString();
                             if (jobj["round3Description"].GetString() != "")
-                                e.Description += "\r\n Round 3 : \r\n" + jobj["round3Description"].GetString();
+                                e.Description += "\r\n\n Round 3 : \r\n" + jobj["round3Description"].GetString();
                             e.NoOfParticipants = jobj["participants"].GetString();
                             e.Fee = jobj["fees"].GetString();
                         }

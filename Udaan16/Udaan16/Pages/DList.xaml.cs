@@ -1,22 +1,33 @@
 ﻿using Udaan16.Common;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
 
 namespace Udaan16.Pages
 {
-    public sealed partial class Deaprtments : Page
+    public sealed partial class DList : Page
     {
         private NavigationHelper navigationHelper;
         private List<Department> Items;
-        
-        public Deaprtments()
+       
+        public DList()
         {
             this.InitializeComponent();
-            Items = (Application.Current as App).Depts.Values.ToList<Department>();
-            Items.Add(new Department("tech", "tech"));
+            Items = (Application.Current as App).Tech;
             listView.ItemsSource = Items;
             listView.DataContext = this;
             this.navigationHelper = new NavigationHelper(this);
@@ -29,7 +40,6 @@ namespace Udaan16.Pages
             get { return this.navigationHelper; }
         }
 
-        
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
         }
@@ -52,13 +62,10 @@ namespace Udaan16.Pages
 
         #endregion
 
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Department d = e.ClickedItem as Department;
-            if (d.Title == "tech")
-                Frame.Navigate(typeof(DList));
-            else
-                Frame.Navigate(typeof(EventList), d);
+            Frame.Navigate(typeof(EventList), d);
         }
     }
 }

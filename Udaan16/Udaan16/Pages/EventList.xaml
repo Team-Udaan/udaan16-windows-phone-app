@@ -20,15 +20,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="Udaan '16" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
             <TextBlock x:Name="TitleOfPage" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
-
+        
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            
+
             <ListView x:Name="listView"
                 IsItemClickEnabled="True"
                       ItemsSource="{Binding Items}"
@@ -40,14 +41,8 @@
                                        TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="1"
                                        Margin="0,0,19,0"
-                                       Style="{ThemeResource TitleTextBlockStyle}"
+                                       Style="{ThemeResource SubheaderTextBlockStyle}"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"/>
-                            <TextBlock
-                                    Text="{Binding Dept}"
-                                    TextWrapping="Wrap"
-                                    Pivot.SlideInAnimationGroup="2"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                     Margin="0,0,19,0"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

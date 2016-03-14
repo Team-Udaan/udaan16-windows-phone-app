@@ -57,11 +57,11 @@ namespace Udaan16
                     e.Fee = eventobj["fees"].GetString();
                     e.Description = eventobj["description"].GetString();
                     if (eventobj["round1Description"].GetString() != "")
-                        e.Description += "\r\n Round 1 : \r\n\n" + eventobj["round1Description"].GetString();
+                        e.Description += "\r\n\nRound 1 : \r\n" + eventobj["round1Description"].GetString();
                     if (eventobj["round2Description"].GetString() != "")
-                        e.Description += "\r\n Round 2 : \r\n\n" + eventobj["round2Description"].GetString();
+                        e.Description += "\r\n\nRound 2 : \r\n" + eventobj["round2Description"].GetString();
                     if (eventobj["round3Description"].GetString() != "")
-                        e.Description += "\r\n Round 3 : \r\n" + eventobj["round3Description"].GetString();
+                        e.Description += "\r\n\nRound 3 : \r\n" + eventobj["round3Description"].GetString();
                     e.NoOfParticipants = eventobj["participants"].GetString();
                     e.Managers = new List<Manager>();
                     foreach (JsonValue manager in eventobj["managers"].GetArray())
@@ -93,11 +93,11 @@ namespace Udaan16
                         try
                         {
                             if (jobj["round1Description"].GetString() != "")
-                                e.Description += "\r\n\n Round 1 : \r\n" + jobj["round1Description"].GetString();
+                                e.Description += "\r\n\nRound 1 : \r\n" + jobj["round1Description"].GetString();
                             if (jobj["round2Description"].GetString() != "")
-                                e.Description += "\r\n\n Round 2 : \r\n" + jobj["round2Description"].GetString();
+                                e.Description += "\r\n\nRound 2 : \r\n" + jobj["round2Description"].GetString();
                             if (jobj["round3Description"].GetString() != "")
-                                e.Description += "\r\n\n Round 3 : \r\n" + jobj["round3Description"].GetString();
+                                e.Description += "\r\n\nRound 3 : \r\n" + jobj["round3Description"].GetString();
                             e.NoOfParticipants = jobj["participants"].GetString();
                             e.Fee = jobj["fees"].GetString();
                         }

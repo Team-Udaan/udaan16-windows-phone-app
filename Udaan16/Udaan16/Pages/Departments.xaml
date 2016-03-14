@@ -52,4 +52,9 @@
             </ListView>
         </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="myCommandBar">
+            <AppBarButton x:Name="pinAppBtn" Label="About Us" Icon="Help" Click="pinAppBtn_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

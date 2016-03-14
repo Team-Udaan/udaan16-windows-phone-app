@@ -141,12 +141,12 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\DepartmentLogos\ETEL.png" />
-    <Content Include="Assets\DepartmentLogos\Prod.png" />
-    <Content Include="Assets\DepartmentLogos\CPIT.png" />
-    <Content Include="Assets\DepartmentLogos\Mech.png" />
-    <Content Include="Assets\DepartmentLogos\EE.png" />
-    <Content Include="Assets\DepartmentLogos\Civil.png" />
+    <Content Include="Assets\DepartmentLogos\Embeddrones.png" />
+    <Content Include="Assets\DepartmentLogos\FabFacturers.png" />
+    <Content Include="Assets\DepartmentLogos\Keycoders.png" />
+    <Content Include="Assets\DepartmentLogos\Machinists.png" />
+    <Content Include="Assets\DepartmentLogos\Rezonizers.png" />
+    <Content Include="Assets\DepartmentLogos\SkyScrapers.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
     <Content Include="Assets\SplashScreen.scale-240.png" />

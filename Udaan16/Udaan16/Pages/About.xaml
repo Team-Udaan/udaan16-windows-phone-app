@@ -28,7 +28,24 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="App for Udaan '16" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Version : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="  1.0.0.0" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}"/>
+                    </StackPanel>
+                    <TextBlock Text="Devloped by : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
+                    <TextBlock Text="Dhruv Suthar" Style="{ThemeResource ListViewItemTextBlockStyle}" Foreground="{ThemeResource PhoneAccentBrush}"/>
+                    <TextBlock Text="E-mail : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
+                    <TextBlock Text="dhruvsuthar17@live.com" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}"/>
+                    <TextBlock Text="GitHub : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
+                </StackPanel>
+                <HyperlinkButton
+                NavigateUri="https://github.com/DhruvSuthar"
+                Content="https://github.com/DhruvSuthar" Style="{ThemeResource PivotTitleContentControlStyle}" Margin="0" HorizontalAlignment="Left"/>
+                <Line Stretch="Fill" Stroke="{ThemeResource PhoneAccentBrush}" X2="2" Margin="0,5,0,0"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

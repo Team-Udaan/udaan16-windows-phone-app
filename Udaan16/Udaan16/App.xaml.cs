@@ -43,7 +43,7 @@ namespace Udaan16
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
             string jsonText = await FileIO.ReadTextAsync(file);
             JsonObject Data = JsonObject.Parse(jsonText);
-            JsonArray Categories = Data["departments"].GetArray();
+            JsonArray Categories = Data["tech"].GetArray();
             foreach (JsonValue val in Categories)
             {
                 JsonObject obj = val.GetObject();
@@ -55,7 +55,7 @@ namespace Udaan16
                     Event e = new Event();
                     e.name = eventobj["name"].GetString();
                     e.Fee = eventobj["fees"].GetString();
-                    e.Description = eventobj["description"].GetString();
+                    e.Description = eventobj["eventDescription"].GetString();
                     if (eventobj["round1Description"].GetString() != "")
                         e.Description += "\r\n\nRound 1 : \r\n" + eventobj["round1Description"].GetString();
                     if (eventobj["round2Description"].GetString() != "")
@@ -64,58 +64,66 @@ namespace Udaan16
                         e.Description += "\r\n\nRound 3 : \r\n" + eventobj["round3Description"].GetString();
                     e.NoOfParticipants = eventobj["participants"].GetString();
                     e.Managers = new List<Manager>();
+                    e.email = eventobj["email"].GetString();
                     foreach (JsonValue manager in eventobj["managers"].GetArray())
                     {
                         JsonObject mgr = manager.GetObject();
                         Manager m = new Manager();
                         m.name = mgr["name"].GetString();
                         m.Contact = mgr["mobile"].GetString();
-                        m.Email = mgr["email"].GetString();
                         e.Managers.Add(m);
                     }
                     d.Events.Add(e);
                 }
                 Tech.Add(d);
             }
+            //load non-tech events
             foreach (JsonValue item in Data["categories"].GetArray())
             {
                 JsonObject o = item.GetObject();
-                if (o["name"].GetString() != "Departments")
+                if (o["name"].GetString() != "Tech Events")
                 {
                     Department dep = new Department(o["name"].GetString(), o["alias"].GetString());
                     Depts[dep.Title] = dep;
-                    foreach (JsonValue v in Data[o["alias"].GetString()].GetArray())
+                    try
                     {
-                        JsonObject jobj = v.GetObject();
-                        Event e = new Event();
-                        e.name = jobj["name"].GetString();
-                        e.Description = jobj["description"].GetString();
-                        try
+                        foreach (JsonValue v in Data[o["alias"].GetString()].GetArray())
                         {
-                            if (jobj["round1Description"].GetString() != "")
-                                e.Description += "\r\n\nRound 1 : \r\n" + jobj["round1Description"].GetString();
-                            if (jobj["round2Description"].GetString() != "")
-                                e.Description += "\r\n\nRound 2 : \r\n" + jobj["round2Description"].GetString();
-                            if (jobj["round3Description"].GetString() != "")
-                                e.Description += "\r\n\nRound 3 : \r\n" + jobj["round3Description"].GetString();
-                            e.NoOfParticipants = jobj["participants"].GetString();
-                            e.Fee = jobj["fees"].GetString();
+                            JsonObject jobj = v.GetObject();
+                            Event e = new Event();
+                            e.name = jobj["name"].GetString();
+                            e.Description = jobj["eventDescription"].GetString();
+                            e.email = jobj["email"].GetString();
+                            try
+                            {
+                                if (jobj["round1Description"].GetString() != "")
+                                    e.Description += "\r\n\nRound 1 : \r\n" + jobj["round1Description"].GetString();
+                                if (jobj["round2Description"].GetString() != "")
+                                    e.Description += "\r\n\nRound 2 : \r\n" + jobj["round2Description"].GetString();
+                                if (jobj["round3Description"].GetString() != "")
+                                    e.Description += "\r\n\nRound 3 : \r\n" + jobj["round3Description"].GetString();
+                                e.NoOfParticipants = jobj["participants"].GetString();
+                                e.Fee = jobj["fees"].GetString();
+                            }
+                            catch (Exception)
+                            {
+                                e.NoOfParticipants = e.Fee = "N/A";
+                            }
+                            e.Managers = new List<Manager>();
+                            foreach (JsonValue manager in jobj["managers"].GetArray())
+                            {
+                                JsonObject mgr = manager.GetObject();
+                                Manager m = new Manager();
+                                m.name = mgr["name"].GetString();
+                                m.Contact = mgr["mobile"].GetString();
+                                e.Managers.Add(m);
+                            }
+                            dep.Events.Add(e);
                         }
-                        catch (Exception)
-                        {
-                            e.NoOfParticipants = e.Fee = "N/A";
-                        }
-                        e.Managers = new List<Manager>();
-                        foreach (JsonValue manager in jobj["managers"].GetArray())
-                        {
-                            JsonObject mgr = manager.GetObject();
-                            Manager m = new Manager();
-                            m.name = mgr["name"].GetString();
-                            m.Contact = mgr["mobile"].GetString();
-                            m.Email = mgr["email"].GetString();
-                            e.Managers.Add(m);
-                        }
-                        dep.Events.Add(e);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+
                     }
                 }
             }

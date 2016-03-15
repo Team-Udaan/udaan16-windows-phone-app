@@ -39,13 +39,13 @@
                             <Image Source="{Binding Image}"
                                     Pivot.SlideInAnimationGroup="1"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"/>
-                            <TextBlock
+                            <!--TextBlock
                                     Text="{Binding Title}"
                                     TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="2"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"
                                     Style="{ThemeResource TitleTextBlockStyle}"
-                                    Margin="10,0,19,0"/>
+                                    Margin="10,0,19,0"/-->
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

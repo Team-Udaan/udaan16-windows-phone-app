@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="5a423aeb-4382-4434-9d90-ba4a115ed4db" Publisher="CN=Dhruv" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="5a423aeb-4382-4434-9d90-ba4a115ed4db" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="25069UdaanBVM.361603DD6EAD" Publisher="CN=E1D5C4F0-E4A9-4A03-AD20-29FAADE938FE" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="4b55d027-c39f-44ad-8e43-82d37f0debcc" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Udaan16</DisplayName>
-    <PublisherDisplayName>Dhruv</PublisherDisplayName>
+    <DisplayName>Udaan '16</DisplayName>
+    <PublisherDisplayName>Udaan BVM</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -16,7 +16,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Udaan16.App">
-      <m3:VisualElements DisplayName="Udaan '16" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="Udaan16" ForegroundText="light" BackgroundColor="transparent" ToastCapable="false">
+      <m3:VisualElements DisplayName="Udaan '16" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="Udaan - 2016 : The Euphoric Leap is BACK" ForegroundText="light" BackgroundColor="transparent" ToastCapable="false">
         <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png" Wide310x150Logo="Assets\WideLogo.png">
           <m3:ShowNameOnTiles>
             <m3:ShowOn Tile="square150x150Logo" />

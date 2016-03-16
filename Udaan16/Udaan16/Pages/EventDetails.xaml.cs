@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System;
 
 namespace Udaan16.Pages
 {
@@ -57,5 +58,26 @@ namespace Udaan16.Pages
         }
 
         #endregion
+
+        private void mgrs_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            string name;
+            string Contact;
+            StackPanel s;
+            try
+            {
+                s = (e.OriginalSource as TextBlock).Parent as StackPanel;
+                name = (s.Children[0] as TextBlock).Text;
+                Contact = (s.Children[1] as TextBlock).Text;
+            }
+            catch(Exception)
+            {
+                Manager m = (sender as ListBox).SelectedItem as Manager;
+                name = m.name;
+                Contact = m.Contact;
+            }
+           
+            Windows.ApplicationModel.Calls.PhoneCallManager.ShowPhoneCallUI(Contact, name);
+        }
     }
 }

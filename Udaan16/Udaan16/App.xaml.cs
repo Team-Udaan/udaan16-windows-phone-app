@@ -34,7 +34,7 @@ namespace Udaan16
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
             string jsonText = await FileIO.ReadTextAsync(file);
             JsonObject Data = JsonObject.Parse(jsonText);
-            JsonArray Categories = Data["tech"].GetArray();
+            JsonArray Categories = Data["departments"].GetArray();
             foreach (JsonValue val in Categories)
             {
                 JsonObject obj = val.GetObject();
@@ -42,16 +42,21 @@ namespace Udaan16
                 foreach (JsonValue item in obj["events"].GetArray())
                 {
                     JsonObject eventobj = item.GetObject();
-                    Event e = new Event();
-                    e.name = eventobj["name"].GetString();
+                    Event e = new Event(eventobj["name"].GetString());
+                    //e.name = eventobj["name"].GetString();
                     e.Fee = eventobj["fees"].GetString();
-                    e.Description = eventobj["eventDescription"].GetString();
-                    if (eventobj["round1Description"].GetString() != "")
-                        e.Description += "\r\n\nRound 1 : \r\n" + eventobj["round1Description"].GetString();
-                    if (eventobj["round2Description"].GetString() != "")
-                        e.Description += "\r\n\nRound 2 : \r\n" + eventobj["round2Description"].GetString();
-                    if (eventobj["round3Description"].GetString() != "")
-                        e.Description += "\r\n\nRound 3 : \r\n" + eventobj["round3Description"].GetString();
+                    try
+                    {
+                        e.Description = eventobj["eventDescription"].GetString();
+                        if (eventobj["round1Description"].GetString() != "")
+                            e.Description += "\r\n\nRound 1 : \r\n" + eventobj["round1Description"].GetString();
+                        if (eventobj["round2Description"].GetString() != "")
+                            e.Description += "\r\n\nRound 2 : \r\n" + eventobj["round2Description"].GetString();
+                        if (eventobj["round3Description"].GetString() != "")
+                            e.Description += "\r\n\nRound 3 : \r\n" + eventobj["round3Description"].GetString();
+                    }
+                    catch (KeyNotFoundException)
+                    { }
                     e.NoOfParticipants = eventobj["participants"].GetString();
                     e.Managers = new List<Manager>();
                     e.email = eventobj["email"].GetString();
@@ -71,17 +76,17 @@ namespace Udaan16
             foreach (JsonValue item in Data["categories"].GetArray())
             {
                 JsonObject o = item.GetObject();
-                if (o["name"].GetString() != "Tech Events")
+                if (o["name"].GetString() != "Tech")
                 {
                     Department dep = new Department(o["name"].GetString(), o["alias"].GetString());
                     Depts[dep.Title] = dep;
-                    try
+                    if(dep.Title != "Nights")
                     {
                         foreach (JsonValue v in Data[o["alias"].GetString()].GetArray())
                         {
                             JsonObject jobj = v.GetObject();
-                            Event e = new Event();
-                            e.name = jobj["name"].GetString();
+                            Event e = new Event(jobj["name"].GetString());
+                            //e.name = jobj["name"].GetString();
                             e.Description = jobj["eventDescription"].GetString();
                             e.email = jobj["email"].GetString();
                             try
@@ -110,10 +115,6 @@ namespace Udaan16
                             }
                             dep.Events.Add(e);
                         }
-                    }
-                    catch (KeyNotFoundException)
-                    {
-
                     }
                 }
             }

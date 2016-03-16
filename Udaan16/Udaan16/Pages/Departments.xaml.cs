@@ -15,17 +15,17 @@ namespace Udaan16.Pages
         public Deaprtments()
         {
             this.InitializeComponent();
-            Items = new List<Department>();
-            Items.Add(new Department("Tech", "tech"));
-            foreach (Department d in (Application.Current as App).Depts.Values.ToList<Department>()) 
-            {
-                Items.Add(d);
-            }         
-            listView.ItemsSource = Items;
-            listView.DataContext = this;
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            Items = new List<Department>();
+            Items.Add(new Department("Tech", "tech"));
+            foreach (Department d in (Application.Current as App).Depts.Values.ToList<Department>())
+            {
+                Items.Add(new Department(d.Title, d.Alias));
+            }
+            listView.ItemsSource = Items;
+            listView.DataContext = this;
         }
 
         public NavigationHelper NavigationHelper
@@ -46,7 +46,7 @@ namespace Udaan16.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+           this.navigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -62,12 +62,12 @@ namespace Udaan16.Pages
             if (d.Title == "Tech")
                 Frame.Navigate(typeof(DList));
             else
-                Frame.Navigate(typeof(EventList), d);
+                Frame.Navigate(typeof(EventList), (Application.Current as App).Depts[d.Title]);
         }
 
-        private void pinAppBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(About));
-        }
+        //private void pinAppBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Frame.Navigate(typeof(About));
+        //}
     }
 }

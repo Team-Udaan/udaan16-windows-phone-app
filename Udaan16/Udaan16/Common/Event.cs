@@ -11,5 +11,10 @@ namespace Udaan16.Common
         public List<Manager> Managers { get; set; }
         public string Fee { get; set; }
 
+        public Event(string s)
+        {
+            name = s;
+        }
+
     }
 }

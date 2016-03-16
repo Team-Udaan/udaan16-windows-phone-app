@@ -34,7 +34,8 @@ namespace Udaan16.Pages
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Event eve = e.ClickedItem as Event;
-            Frame.Navigate(typeof(EventDetails), eve);
+            if (eve.name != "Coming Soon")
+                Frame.Navigate(typeof(EventDetails), eve);
         }
 
         #region NavigationHelper registration
@@ -46,7 +47,10 @@ namespace Udaan16.Pages
             if (d != null)
             {
                 TitleOfPage.Text = d.Title;
-                Items = d.Events;
+                if (d.Title == "Nights")
+                    Items = new List<Event>() { new Event("Coming Soon") };
+                else
+                    Items = d.Events;
                 listView.ItemsSource = Items;
                 listView.DataContext = this;
             }

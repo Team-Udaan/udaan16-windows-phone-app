@@ -4,6 +4,8 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System;
+using Windows.ApplicationModel.Store;
 
 namespace Udaan16.Pages
 {
@@ -68,6 +70,11 @@ namespace Udaan16.Pages
         private void pinAppBtn_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(About));
+        }
+
+        private async void review_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
         }
     }
 }

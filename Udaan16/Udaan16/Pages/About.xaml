@@ -34,7 +34,7 @@
                     <TextBlock Text="App for Udaan '16" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Version : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" VerticalAlignment="Center"/>
-                        <TextBlock Text="  1.0.0.0" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}"/>
+                        <TextBlock Text="  1.0.0.1" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}"/>
                     </StackPanel>
                     <TextBlock Text="Development team : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
                     <ListView x:Name="listView" ItemsSource="{Binding devlist}" Background="Transparent">
@@ -46,10 +46,12 @@
                                     <TextBlock Text="{Binding Email}" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}" Margin="25,0,0,0"/>
                                     <TextBlock Text="GitHub : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="10,0,0,0"/>
                                     <HyperlinkButton
-                                    NavigateUri="https://github.com/DhruvSuthar"
-                                    Content="{Binding Git}" 
-                                    Style="{ThemeResource PivotTitleContentControlStyle}" Margin="25,0,0,0" HorizontalAlignment="Left"/>
-                                    <Line Stretch="Fill" Stroke="{ThemeResource PhoneAccentBrush}" X2="2" Margin="0,5,0,0"/>
+                                        NavigateUri="{Binding Git}"
+                                        Content="{Binding Git}" 
+                                        Foreground="{ThemeResource PhoneAccentBrush}"
+                                        FontSize="{ThemeResource ContentControlFontSize}"
+                                        Margin="25,0,0,0" HorizontalAlignment="Left"/>
+                                    <Line Stretch="Fill" Stroke="{ThemeResource AppBarItemForegroundThemeBrush}" X2="2" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

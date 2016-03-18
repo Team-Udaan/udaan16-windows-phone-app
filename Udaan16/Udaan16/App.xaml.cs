@@ -26,7 +26,7 @@ namespace Udaan16
             Tech = new List<Department>();
             DevList = new List<Devs>();
             for (int i = 0; i < 10; i++)
-                DevList.Add(new Devs("dev" + i, "email1", "git repos"));
+                DevList.Add(new Devs("Dhruv Suthar" + i, "dhruvsuthar17@live.com", "https://github.com/DhruvSuthar"));
             LoadData();
             //LoadDevs();
             this.Suspending += this.OnSuspending;

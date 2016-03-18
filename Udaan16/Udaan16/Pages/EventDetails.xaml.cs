@@ -19,7 +19,7 @@ namespace Udaan16.Pages
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-            
+
         }
 
         public NavigationHelper NavigationHelper
@@ -35,13 +35,12 @@ namespace Udaan16.Pages
         {
         }
 
-        
 
         #region NavigationHelper registration
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            base.OnNavigatedTo(e);
             _event.Add(e.Parameter as Event);
             if(_event != null)
             {
@@ -49,13 +48,13 @@ namespace Udaan16.Pages
                 listView.ItemsSource = _event;
                 listView.DataContext = this;
             }
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            this.navigationHelper.OnNavigatedFrom(e);
+        { 
+            base.OnNavigatedFrom(e);
         }
+
 
         #endregion
 
@@ -76,8 +75,12 @@ namespace Udaan16.Pages
                 name = m.name;
                 Contact = m.Contact;
             }
-           
-            Windows.ApplicationModel.Calls.PhoneCallManager.ShowPhoneCallUI(Contact, name);
+            PlaceCall(Contact, name);
+        }
+
+        private void PlaceCall(string c, string n)
+        {
+            Windows.ApplicationModel.Calls.PhoneCallManager.ShowPhoneCallUI(c, n);
         }
     }
 }

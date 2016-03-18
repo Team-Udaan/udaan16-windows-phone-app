@@ -120,7 +120,7 @@ namespace Udaan16
             }
         }
 
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -134,20 +134,8 @@ namespace Udaan16
              if (rootFrame == null)
             {
                 rootFrame = new Frame();
-                SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
                 rootFrame.CacheSize = 1;
                 rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    try
-                    {
-                        await SuspensionManager.RestoreAsync();
-                    }
-                    catch (SuspensionManagerException)
-                    {
-                    }
-                }
 
                 Window.Current.Content = rootFrame;
             }
@@ -182,10 +170,9 @@ namespace Udaan16
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
 
-       private async void OnSuspending(object sender, SuspendingEventArgs e)
+       private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            await SuspensionManager.SaveAsync();
             deferral.Complete();
         }
     }

@@ -65,9 +65,9 @@ namespace Udaan16.Pages
                 Frame.Navigate(typeof(EventList), (Application.Current as App).Depts[d.Title]);
         }
 
-        //private void pinAppBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Frame.Navigate(typeof(About));
-        //}
+        private void pinAppBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(About));
+        }
     }
 }

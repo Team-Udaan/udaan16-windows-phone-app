@@ -108,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Department.cs" />
+    <Compile Include="Common\Devs.cs" />
     <Compile Include="Common\Event.cs" />
     <Compile Include="Common\Manager.cs" />
     <Compile Include="Common\NavigationHelper.cs" />

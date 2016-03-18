@@ -18,13 +18,28 @@ namespace Udaan16
         private TransitionCollection transitions;
         public Dictionary<string,Department> Depts { get; set; }
         public List<Department> Tech { get; set; }
+        public List<Devs> DevList { get; set; }
 
         public App()
         {
             this.InitializeComponent();
             Tech = new List<Department>();
+            DevList = new List<Devs>();
+            for (int i = 0; i < 10; i++)
+                DevList.Add(new Devs("dev" + i, "email1", "git repos"));
             LoadData();
+            //LoadDevs();
             this.Suspending += this.OnSuspending;
+        }
+
+        private async void LoadDevs()
+        {
+            DevList = new List<Devs>();
+            Uri dataUri = new Uri("ms-appx:///DataModel/devs.json");
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+            string jsonText = await FileIO.ReadTextAsync(file);
+            JsonObject Data = JsonObject.Parse(jsonText);
+            
         }
 
         private async void LoadData()

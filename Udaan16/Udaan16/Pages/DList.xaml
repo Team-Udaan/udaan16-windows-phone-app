@@ -10,11 +10,17 @@
 
     <Grid x:Name="LayoutRoot">
 
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
+        <Grid.Resources>
+            <Style x:Key="DefaultStyle" TargetType="Image">
+                <Setter Property="Transitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <EntranceThemeTransition/>
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -35,18 +41,7 @@
                       ItemClick="listView_ItemClick">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" Background="Transparent" Margin="8">
-                            <Image Source="{Binding Image}"
-                                    Pivot.SlideInAnimationGroup="1"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"/>
-                            <!--TextBlock
-                                    Text="{Binding Title}"
-                                    TextWrapping="Wrap"
-                                    Pivot.SlideInAnimationGroup="2"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Style="{ThemeResource TitleTextBlockStyle}"
-                                    Margin="10,0,19,0"/-->
-                        </StackPanel>
+                        <Image Source="{Binding Image}" Style="{StaticResource DefaultStyle}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

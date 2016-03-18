@@ -42,6 +42,8 @@
                             <DataTemplate>
                                 <StackPanel Background="Transparent">
                                     <TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}" Foreground="{ThemeResource PhoneAccentBrush}"/>
+                                    <TextBlock Text="Contact : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="10,0,0,0"/>
+                                    <TextBlock Text="{Binding Contact}" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}" Margin="25,0,0,0"/>
                                     <TextBlock Text="E-mail : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="10,0,0,0"/>
                                     <TextBlock Text="{Binding Email}" Style="{ThemeResource ComboBoxPlaceholderTextBlockStyle}" Margin="25,0,0,0"/>
                                     <TextBlock Text="GitHub : " Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="10,0,0,0"/>

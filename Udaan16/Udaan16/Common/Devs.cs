@@ -11,12 +11,14 @@ namespace Udaan16.Common
         public string Name { get; set; }
         public string Email { get; set; }
         public string Git { get; set; }
+        public string Contact { get; set; }
 
-        public Devs(string n, string e, string g)
+        public Devs(string n, string e, string g, string c)
         {
             Name = n;
             Email = e;
             Git = g;
+            Contact = c;
         }
     }
 }

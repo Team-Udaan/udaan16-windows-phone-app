@@ -25,21 +25,23 @@ namespace Udaan16
             this.InitializeComponent();
             Tech = new List<Department>();
             DevList = new List<Devs>();
-            for (int i = 0; i < 10; i++)
-                DevList.Add(new Devs("Dhruv Suthar" + i, "dhruvsuthar17@live.com", "https://github.com/DhruvSuthar"));
             LoadData();
-            //LoadDevs();
+            LoadDevs();
             this.Suspending += this.OnSuspending;
         }
 
         private async void LoadDevs()
         {
             DevList = new List<Devs>();
-            Uri dataUri = new Uri("ms-appx:///DataModel/devs.json");
+            Uri dataUri = new Uri("ms-appx:///DataModel/developers.json");
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
             string jsonText = await FileIO.ReadTextAsync(file);
             JsonObject Data = JsonObject.Parse(jsonText);
-            
+            foreach (JsonValue item in Data["devs"].GetArray())
+            {
+                JsonObject o = item.GetObject();
+                DevList.Add(new Devs(o["name"].GetString(), o["email"].GetString(), o["github"].GetString(), o["mobile"].GetString()));
+            }
         }
 
         private async void LoadData()
@@ -58,7 +60,6 @@ namespace Udaan16
                 {
                     JsonObject eventobj = item.GetObject();
                     Event e = new Event(eventobj["name"].GetString());
-                    //e.name = eventobj["name"].GetString();
                     e.Fee = eventobj["fees"].GetString();
                     try
                     {
@@ -101,7 +102,6 @@ namespace Udaan16
                         {
                             JsonObject jobj = v.GetObject();
                             Event e = new Event(jobj["name"].GetString());
-                            //e.name = jobj["name"].GetString();
                             e.Description = jobj["eventDescription"].GetString();
                             e.email = jobj["email"].GetString();
                             try
